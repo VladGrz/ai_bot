@@ -6,40 +6,43 @@ from loader import dp, bot
 from .provider import _providers, ask_provider
 
 
+def remove_command(text):
+    separated = text.split()
+    separated.pop(0) if separated[0].startswith("/") else separated
+    return " ".join(separated)
+
+
 @dp.message_handler(commands=["bing"])
 async def answer_bing(message: Message):
-    await message.answer(await ask_provider(_providers["Bing"], message.text[6:]))
+    await message.answer(await ask_provider(_providers["Bing"], remove_command(message.text)))
 
 
 @dp.message_handler(commands=["gptgo"])
 async def answer_gptgo(message: Message):
-    await message.answer(await ask_provider(_providers["GptGo"], message.text[7:]))
+    await message.answer(await ask_provider(_providers["GptGo"], remove_command(message.text)))
 
 
 @dp.message_handler(commands=["you"])
 async def answer_you(message: Message):
-    await message.answer(await ask_provider(_providers["You"], message.text[5:]))
+    await message.answer(await ask_provider(_providers["You"], remove_command(message.text)))
 
 
 @dp.message_handler(commands=["chatbase"])
 async def answer_chatbase(message: Message):
-    await message.answer(await ask_provider(_providers["ChatBase"], message.text[10:]))
+    await message.answer(await ask_provider(_providers["ChatBase"], remove_command(message.text)))
 
 
 @dp.message_handler(commands=["phind"])
 async def answer_phind(message: Message):
-    await message.answer(await ask_provider(_providers["Phind"], message.text[7:]))
+    await message.answer(await ask_provider(_providers["Phind"], remove_command(message.text)))
 
 
 @dp.message_handler(commands=["liaobots"])
 async def answer_liaobots(message: Message):
-    await message.answer(await ask_provider(_providers["Liaobots"], message.text[10:]))
+    await message.answer(await ask_provider(_providers["Liaobots"], remove_command(message.text)))
 
 
 @dp.message_handler(commands=["all"])
 async def answer_all(message: Message):
-    results = [
-        await message.answer(
-            await ask_provider(provider_id, message.text[5:])
-        ) for provider_id in _providers.values()
-    ]
+    for provider_id in _providers.values():
+        await message.answer(await ask_provider(provider_id, remove_command(message.text)))

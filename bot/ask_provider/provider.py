@@ -20,4 +20,5 @@ async def ask_provider(provider: g4f.Provider.BaseProvider, text: str):
         )
         return f"{provider.__name__}:{response}"
     except Exception as e:
+        print(e)
         return f"Вибачте, не зміг обробити ваш запит, спробуйте трохи змінити його."
