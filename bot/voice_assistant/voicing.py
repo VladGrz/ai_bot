@@ -1,13 +1,13 @@
 from loader import bot, dp, el
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 
-voices = el.voices()
 VOICE_KB_WIDTH = 4
 VOICE_KB_HEIGHT = 3
 VOICE_KB_BUTTONS_NUM = 12
 
 
 def voice_keyboard(offset_start=0, offset_end=None):
+    voices = el.voices()
     if offset_end is None:
         offset_end = offset_start + VOICE_KB_BUTTONS_NUM
     keyboard = []
