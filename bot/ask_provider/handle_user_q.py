@@ -37,11 +37,6 @@ async def answer_phind(message: Message):
     await message.answer(await ask_provider(_providers["Phind"], remove_command(message.text)))
 
 
-@dp.message_handler(commands=["liaobots"])
-async def answer_liaobots(message: Message):
-    await message.answer(await ask_provider(_providers["Liaobots"], remove_command(message.text)))
-
-
 @dp.message_handler(commands=["all"])
 async def answer_all(message: Message):
     for provider_id in _providers.values():
