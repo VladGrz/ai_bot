@@ -62,15 +62,21 @@ async def add_audiofile(message: Message, state: FSMContext):
 
 @dp.callback_query_handler(text_startswith="stop_adding_voice", state=AddingCustomVoice.voice_file)
 async def copy_voice(call: CallbackQuery | Message, state: FSMContext):
+    if type(call) is CallbackQuery:
+        await call.answer()
+        call = call.message
     await AddingCustomVoice.next()
     files_list = (await state.get_data())["voice_file"]
     voice_name = (await state.get_data())["voice_name"]
-    el.clone(
-        name=voice_name,
-        files=files_list
-    )
-    if type(call) is CallbackQuery:
-        await call.message.answer("Ваш голос успішно скопійовано")
+    try:
+        el.clone(
+            name=voice_name,
+            files=files_list
+        )
+    except el.api.error.APIError:
+        await call.answer(
+            "Ви досягли максимуму клонованих голосів 10/10, будь ласка видаліть якийсь голос через команду /delete_voice"
+        )
     else:
         await call.answer("Ваш голос успішно скопійовано")
     await state.finish()
