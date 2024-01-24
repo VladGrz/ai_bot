@@ -17,7 +17,7 @@ async def ask_provider(provider: g4f.Provider.BaseProvider, text: str):
             messages=[{"role": "user", "content": text}],
             provider=provider,
         )
-        return f"{provider.__name__}:{response}"
+        return f"{provider.__name__}: {response}"
     except Exception as e:
         print(e)
         return f"Вибачте, щось пішло не так і я не можу надати вам відповідь. Спробуйте будь ласка пізніше."
