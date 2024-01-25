@@ -6,7 +6,9 @@ VOICE_KB_HEIGHT = 3
 VOICE_KB_BUTTONS_NUM = 12
 
 
-def voice_keyboard(offset_start=0, offset_end=None, purpose="use_voice", voices=el.voices()):
+def voice_keyboard(offset_start=0, offset_end=None, purpose="use_voice", voices=None):
+    if voices is None:
+        voices = el.voices()
     if offset_end is None:
         offset_end = offset_start + VOICE_KB_BUTTONS_NUM
     keyboard = []
